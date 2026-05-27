@@ -18,6 +18,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = FallbackImage } = Astro.props;
 ---
 
+<!-- i18n: apply saved language preference before content renders (no FOUC) -->
+<script is:inline>
+	(function () {
+		try {
+			var lang = localStorage.getItem('lang');
+			if (!lang) {
+				lang = (navigator.language || 'zh').toLowerCase().startsWith('en') ? 'en' : 'zh';
+			}
+			document.documentElement.dataset.lang = lang;
+			document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+		} catch (e) {
+			document.documentElement.dataset.lang = 'zh';
+		}
+	})();
+</script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />

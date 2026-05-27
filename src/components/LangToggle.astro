@@ -1,0 +1,39 @@
+---
+// Language toggle button. Flips html[data-lang] and persists to localStorage.
+---
+<button id="lang-toggle" type="button" aria-label="Toggle language">
+	<span data-i18n-zh>EN</span><span data-i18n-en>中</span>
+</button>
+<script is:inline>
+	(function () {
+		var btn = document.getElementById('lang-toggle');
+		if (!btn) return;
+		btn.addEventListener('click', function () {
+			var cur = document.documentElement.dataset.lang || 'zh';
+			var next = cur === 'zh' ? 'en' : 'zh';
+			document.documentElement.dataset.lang = next;
+			document.documentElement.lang = next === 'zh' ? 'zh-CN' : 'en';
+			try {
+				localStorage.setItem('lang', next);
+			} catch (e) {}
+		});
+	})();
+</script>
+<style>
+	#lang-toggle {
+		background: transparent;
+		border: 1px solid rgb(var(--gray-light));
+		border-radius: 6px;
+		padding: 4px 10px;
+		margin-left: 0.6em;
+		font-size: 0.85em;
+		font-family: inherit;
+		cursor: pointer;
+		color: var(--black);
+		min-width: 2.6em;
+		transition: background 0.15s;
+	}
+	#lang-toggle:hover {
+		background: rgb(var(--gray-light));
+	}
+</style>

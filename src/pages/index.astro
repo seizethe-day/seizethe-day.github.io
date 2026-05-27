@@ -6,43 +6,38 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<div data-i18n-zh>
+				<h1>👋 你好</h1>
+				<p>
+					这里是 <strong>Carpe Diem</strong>——一个用来记录读书、写代码、生活随想的小角落。
+				</p>
+				<p>
+					欢迎逛逛 <a href="/blog">所有文章</a>，或者了解一下 <a href="/about">关于我</a>。
+				</p>
+				<p style="font-size: 0.9em; color: rgb(var(--gray));">
+					右上角可以切换中英文界面。
+				</p>
+			</div>
+			<div data-i18n-en>
+				<h1>👋 Hello</h1>
+				<p>
+					Welcome to <strong>Carpe Diem</strong> — a little corner for notes on reading, code,
+					and life.
+				</p>
+				<p>
+					Browse <a href="/blog">all posts</a>, or check out <a href="/about">about me</a>.
+				</p>
+				<p style="font-size: 0.9em; color: rgb(var(--gray));">
+					Use the toggle in the top-right to switch UI language.
+				</p>
+			</div>
 		</main>
 		<Footer />
 	</body>
