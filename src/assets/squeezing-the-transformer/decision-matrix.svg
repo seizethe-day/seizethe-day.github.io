@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="800" viewBox="0 0 960 800" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sui-serif">
+  <defs>
+    <style>
+      text { dominant-baseline: middle; }
+      .title { font-size: 26px; font-weight: 700; fill: #111; }
+      .subtitle { font-size: 14px; fill: #666; }
+      .header { font-size: 11px; font-weight: 700; fill: #fff; letter-spacing: 1.4px; }
+      .symptom { font-size: 13.5px; font-weight: 600; fill: #111; }
+      .symptom-sub { font-size: 11.5px; fill: #555; }
+      .cause { font-size: 13.5px; fill: #111; }
+      .fix-code { font-size: 11.5px; fill: #111; font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace; }
+      .arrow { font-size: 20px; fill: #bbb; }
+      .footer { font-size: 11px; fill: #888; }
+      .legend-text { font-size: 11px; fill: #333; }
+    </style>
+  </defs>
+
+  <rect width="960" height="800" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="480" y="46" text-anchor="middle" class="title">Training Timeline Debugger</text>
+  <text x="480" y="74" text-anchor="middle" class="subtitle">A symptom → cause → fix matrix for distributed training</text>
+
+  <!-- Header row -->
+  <g>
+    <rect x="40" y="106" width="290" height="32" fill="#1a1a1a" rx="4"/>
+    <text x="185" y="124" text-anchor="middle" class="header">SYMPTOM ON THE TIMELINE</text>
+    <rect x="354" y="106" width="240" height="32" fill="#1a1a1a" rx="4"/>
+    <text x="474" y="124" text-anchor="middle" class="header">LIKELY CAUSE</text>
+    <rect x="618" y="106" width="302" height="32" fill="#1a1a1a" rx="4"/>
+    <text x="769" y="124" text-anchor="middle" class="header">FIRST THING TO TRY</text>
+  </g>
+
+  <!-- Row 1: Data pipeline (yellow) -->
+  <g transform="translate(0, 154)">
+    <rect x="40" y="0" width="290" height="58" fill="#FFF8E1" stroke="#FFE082" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#F9A825" rx="0"/>
+    <text x="62" y="22" class="symptom">GPU SM% low</text>
+    <text x="62" y="42" class="symptom-sub">CPU busy</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#FFF8E1" stroke="#FFE082" rx="4"/>
+    <text x="366" y="32" class="cause">Data pipeline bottleneck</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#FFF8E1" stroke="#FFE082" rx="4"/>
+    <text x="630" y="22" class="fix-code">pin_memory=True</text>
+    <text x="630" y="42" class="fix-code">num_workers, prefetch_factor</text>
+  </g>
+
+  <!-- Row 2: Kernel launch (orange) -->
+  <g transform="translate(0, 222)">
+    <rect x="40" y="0" width="290" height="58" fill="#FFE0B2" stroke="#FFCC80" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#EF6C00" rx="0"/>
+    <text x="62" y="22" class="symptom">GPU SM% low</text>
+    <text x="62" y="42" class="symptom-sub">CPU idle</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#FFE0B2" stroke="#FFCC80" rx="4"/>
+    <text x="366" y="32" class="cause">Kernel launch overhead</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#FFE0B2" stroke="#FFCC80" rx="4"/>
+    <text x="630" y="22" class="fix-code">CUDA Graphs, batch more</text>
+    <text x="630" y="42" class="fix-code">fuse small kernels</text>
+  </g>
+
+  <!-- Row 3: Tensor Core (pink) -->
+  <g transform="translate(0, 290)">
+    <rect x="40" y="0" width="290" height="58" fill="#FCE4EC" stroke="#F8BBD0" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#D81B60" rx="0"/>
+    <text x="62" y="22" class="symptom">Tensor Core % low</text>
+    <text x="62" y="42" class="symptom-sub">but kernels are running</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#FCE4EC" stroke="#F8BBD0" rx="4"/>
+    <text x="366" y="32" class="cause">Not hitting Tensor Cores</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#FCE4EC" stroke="#F8BBD0" rx="4"/>
+    <text x="630" y="22" class="fix-code">enable AMP / BF16 / FP8</text>
+    <text x="630" y="42" class="fix-code">pad matrix dims to multiples of 16</text>
+  </g>
+
+  <!-- Row 4: HBM bandwidth (red) -->
+  <g transform="translate(0, 358)">
+    <rect x="40" y="0" width="290" height="58" fill="#FFEBEE" stroke="#FFCDD2" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#C62828" rx="0"/>
+    <text x="62" y="22" class="symptom">HBM bandwidth saturated</text>
+    <text x="62" y="42" class="symptom-sub">but Tensor Core % stays low</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#FFEBEE" stroke="#FFCDD2" rx="4"/>
+    <text x="366" y="32" class="cause">Memory-bound op</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#FFEBEE" stroke="#FFCDD2" rx="4"/>
+    <text x="630" y="22" class="fix-code">kernel fusion, FlashAttention</text>
+    <text x="630" y="42" class="fix-code">recompute over reload (checkpointing)</text>
+  </g>
+
+  <!-- Row 5: NCCL (blue) -->
+  <g transform="translate(0, 426)">
+    <rect x="40" y="0" width="290" height="58" fill="#E3F2FD" stroke="#BBDEFB" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#1565C0" rx="0"/>
+    <text x="62" y="22" class="symptom">NCCL kernels dominate</text>
+    <text x="62" y="42" class="symptom-sub">GPUs wait on each other</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#E3F2FD" stroke="#BBDEFB" rx="4"/>
+    <text x="366" y="32" class="cause">Communication-bound</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#E3F2FD" stroke="#BBDEFB" rx="4"/>
+    <text x="630" y="22" class="fix-code">reduce TP, larger batch, grad-accum</text>
+    <text x="630" y="42" class="fix-code">switch to PP for inter-node hops</text>
+  </g>
+
+  <!-- Row 6: OOM activations (purple) -->
+  <g transform="translate(0, 494)">
+    <rect x="40" y="0" width="290" height="58" fill="#F3E5F5" stroke="#E1BEE7" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#6A1B9A" rx="0"/>
+    <text x="62" y="22" class="symptom">OOM in activations</text>
+    <text x="62" y="42" class="symptom-sub">long sequence, big N</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#F3E5F5" stroke="#E1BEE7" rx="4"/>
+    <text x="366" y="32" class="cause">Sequence too long</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#F3E5F5" stroke="#E1BEE7" rx="4"/>
+    <text x="630" y="22" class="fix-code">gradient checkpointing</text>
+    <text x="630" y="42" class="fix-code">sequence parallelism, lower N</text>
+  </g>
+
+  <!-- Row 7: OOM weights (deep purple) -->
+  <g transform="translate(0, 562)">
+    <rect x="40" y="0" width="290" height="58" fill="#EDE7F6" stroke="#D1C4E9" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#4527A0" rx="0"/>
+    <text x="62" y="22" class="symptom">OOM in weights / optimizer</text>
+    <text x="62" y="42" class="symptom-sub">model too big for one GPU</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#EDE7F6" stroke="#D1C4E9" rx="4"/>
+    <text x="366" y="32" class="cause">Model too big</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#EDE7F6" stroke="#D1C4E9" rx="4"/>
+    <text x="630" y="22" class="fix-code">ZeRO-3 / FSDP, tensor parallel</text>
+    <text x="630" y="42" class="fix-code">offload optimizer state to CPU</text>
+  </g>
+
+  <!-- Row 8: FP8 loss spikes (teal) -->
+  <g transform="translate(0, 630)">
+    <rect x="40" y="0" width="290" height="58" fill="#E0F2F1" stroke="#B2DFDB" rx="4"/>
+    <rect x="40" y="0" width="6" height="58" fill="#00695C" rx="0"/>
+    <text x="62" y="22" class="symptom">Loss spikes under FP8</text>
+    <text x="62" y="42" class="symptom-sub">scale underflows / overflows</text>
+    <text x="338" y="32" class="arrow">→</text>
+    <rect x="354" y="0" width="240" height="58" fill="#E0F2F1" stroke="#B2DFDB" rx="4"/>
+    <text x="366" y="32" class="cause">Delayed-scaling lag</text>
+    <text x="602" y="32" class="arrow">→</text>
+    <rect x="618" y="0" width="302" height="58" fill="#E0F2F1" stroke="#B2DFDB" rx="4"/>
+    <text x="630" y="22" class="fix-code">BF16 warmup, keep head in BF16</text>
+    <text x="630" y="42" class="fix-code">switch to MXFP8 (Blackwell)</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="40" y="730" class="footer">Read every row left-to-right. The left column is what you see in Nsight Systems; the right column is the first knob to turn before reaching</text>
+  <text x="40" y="746" class="footer">for anything exotic. When in doubt, profile before optimizing.</text>
+  <text x="920" y="775" text-anchor="end" class="footer">— Squeezing the Transformer · § 8.1</text>
+</svg>
