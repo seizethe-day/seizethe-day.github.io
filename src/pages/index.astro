@@ -4,11 +4,19 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_AUTHOR, SITE_DESCRIPTION, SITE_TITLE, EMAIL, GITHUB_URL } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// Estimate reading time at ~200 wpm. Bodies with lots of code/math will overshoot;
+// for tighter control, add `readingTime: N` to a post's frontmatter (not wired today).
+function readingMinutes(body: string | undefined): number {
+	if (!body) return 1;
+	const words = body.trim().split(/\s+/).length;
+	return Math.max(1, Math.round(words / 200));
+}
 ---
 
 <!doctype html>
@@ -19,26 +27,53 @@ const posts = (await getCollection('blog')).sort(
 	<body>
 		<Header />
 		<main>
-			<section class="intro">
-				<p>
-					Hi, there is Ariel👋Welcome to Ariel's Log. Notes on reading, code, and life.
+			<section class="welcome">
+				<h1>👋 Welcome to Ariel's Log</h1>
+				<p class="intro">
+					Hi, there is Ariel. Notes on reading, code, and life.
 				</p>
+				<div class="socials">
+					<a href={GITHUB_URL} target="_blank" rel="noopener" aria-label="GitHub">
+						<svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"
+							><path
+								fill="currentColor"
+								d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+							></path></svg
+						>
+					</a>
+					<a href="/rss.xml" aria-label="RSS feed">
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M4 11a9 9 0 0 1 9 9"></path>
+							<path d="M4 4a16 16 0 0 1 16 16"></path>
+							<circle cx="5" cy="19" r="1"></circle>
+						</svg>
+					</a>
+					<a href={`mailto:${EMAIL}`} aria-label="Email">
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+							<polyline points="22,6 12,13 2,6"></polyline>
+						</svg>
+					</a>
+				</div>
 			</section>
+
 			<section class="posts">
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
+				{
+					posts.map((post) => {
+						const minutes = readingMinutes(post.body);
+						return (
+							<article class="post-card">
 								<a href={`/blog/${post.id}/`}>
-									<time class="date" datetime={post.data.pubDate.toISOString()}>
-										<FormattedDate date={post.data.pubDate} />
-									</time>
-									<span class="title">{post.data.title}</span>
+									<h2>{post.data.title}</h2>
+									{post.data.description && <p class="excerpt">{post.data.description}</p>}
+									<p class="meta">
+										Date: <FormattedDate date={post.data.pubDate} /> · Estimated Reading Time: {minutes} min · Author: {SITE_AUTHOR}
+									</p>
 								</a>
-							</li>
-						))
-					}
-				</ul>
+							</article>
+						);
+					})
+				}
 			</section>
 		</main>
 		<Footer />
@@ -46,62 +81,112 @@ const posts = (await getCollection('blog')).sort(
 </html>
 
 <style>
-	.intro {
-		margin-bottom: 2.5em;
-		padding-bottom: 2em;
-		border-bottom: 1px solid var(--border);
+	.welcome {
+		margin-bottom: 3em;
 	}
-	.intro p {
+	.welcome h1 {
+		font-size: 2.4rem;
+		font-weight: 700;
+		letter-spacing: -0.025em;
+		margin: 0 0 0.5em 0;
+		line-height: 1.2;
+	}
+	.welcome .intro {
 		color: var(--text-muted);
-		font-size: 1.02em;
-		margin: 0;
-		line-height: 1.65;
+		font-size: 1.05em;
+		line-height: 1.7;
+		margin: 0 0 1.25em 0;
 	}
-	.posts ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
+	.socials {
+		display: flex;
+		gap: 0.5em;
+		align-items: center;
 	}
-	.posts li a {
-		display: grid;
-		grid-template-columns: 7em 1fr;
-		gap: 1.5em;
-		padding: 0.7em 0.5em;
+	.socials a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.45em;
+		color: var(--text-muted);
+		border-radius: 6px;
+		transition:
+			color 0.15s,
+			background 0.15s;
+	}
+	.socials a:hover {
+		color: var(--text);
+		background: var(--bg-elevated);
+		text-decoration: none;
+	}
+
+	.posts {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25em;
+	}
+	.post-card {
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		background: var(--bg);
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s,
+			transform 0.15s;
+	}
+	.post-card:hover {
+		border-color: var(--border-strong);
+		box-shadow: var(--shadow-md);
+	}
+	.post-card a {
+		display: block;
+		padding: 1.5em 1.75em;
 		color: var(--text);
 		text-decoration: none;
-		border-bottom: 1px solid var(--border);
-		transition: background 0.15s;
 	}
-	.posts li:last-child a {
-		border-bottom: none;
+	.post-card a:hover {
+		text-decoration: none;
 	}
-	.posts li a:hover {
-		background: var(--bg-elevated);
-	}
-	.posts li a:hover .title {
-		color: var(--accent);
-	}
-	.posts .date {
-		color: var(--text-subtle);
-		font-size: 0.85em;
-		font-variant-numeric: tabular-nums;
-		padding-top: 0.2em;
-		white-space: nowrap;
-	}
-	.posts .title {
-		font-size: 1.05em;
-		font-weight: 500;
-		line-height: 1.4;
+	.post-card h2 {
+		margin: 0 0 0.6em 0;
+		font-size: 1.4rem;
+		font-weight: 700;
+		line-height: 1.3;
+		letter-spacing: -0.015em;
+		color: var(--text);
 		transition: color 0.15s;
 	}
+	.post-card a:hover h2 {
+		color: var(--accent);
+	}
+	.post-card .excerpt {
+		color: var(--text-muted);
+		margin: 0 0 1em 0;
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.post-card .meta {
+		color: var(--text-subtle);
+		font-size: 0.85em;
+		margin: 0;
+		font-variant-numeric: tabular-nums;
+	}
+
 	@media (max-width: 720px) {
-		.posts li a {
-			grid-template-columns: 5.5em 1fr;
-			gap: 1em;
-			padding: 0.6em 0.25em;
+		.welcome h1 {
+			font-size: 1.9rem;
 		}
-		.posts .title {
-			font-size: 0.98em;
+		.post-card a {
+			padding: 1.25em 1.25em;
+		}
+		.post-card h2 {
+			font-size: 1.2rem;
+		}
+		.post-card .meta {
+			font-size: 0.78em;
 		}
 	}
 </style>
