@@ -1,6 +1,5 @@
 ---
 import { GITHUB_URL, SITE_AUTHOR } from '../consts';
-import VisitCounter from './VisitCounter.astro';
 import VisitorMap from './VisitorMap.astro';
 const today = new Date();
 ---
@@ -8,13 +7,10 @@ const today = new Date();
 <footer>
 	<div class="footer-inner">
 		<VisitorMap />
-		<VisitCounter />
 		<div class="copyright">
 			&copy; {today.getFullYear()} {SITE_AUTHOR}
 			<span class="dot">·</span>
 			<a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a>
-			<span class="dot">·</span>
-			<span data-i18n-zh>用 Astro 构建</span><span data-i18n-en>Built with Astro</span>
 		</div>
 	</div>
 </footer>

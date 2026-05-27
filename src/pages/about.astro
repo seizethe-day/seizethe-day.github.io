@@ -1,43 +1,22 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import Layout from '../layouts/BlogPost.astro';
 ---
 
 <Layout
 	title="About"
-	description="关于这个博客和它的作者"
+	title_zh="关于"
+	description="About this blog and its author."
+	description_zh="关于这个博客和它的作者。"
 	pubDate={new Date('May 27 2026')}
-	heroImage={AboutHeroImage}
 >
-	<div data-i18n-zh>
-		<p>
-			嗨，我是 <strong>seizethe-day</strong>。
-		</p>
-		<p>
-			这个博客叫 <em>Carpe Diem</em>（拉丁语「抓住今天」），用来记录我读过的书、写过的代码、走过的路、想过的事。文章不定期更新，长短随心。
-		</p>
-		<p>
-			目前主要写中文，偶尔会用英文。右上角可以切换语言显示——切换的是网站界面，文章本身保持原语种。
-		</p>
-		<p>
-			想找我聊聊：邮件 <a href="mailto:alice6161616@gmail.com">alice6161616@gmail.com</a>，或者 <a href="https://github.com/seizethe-day" target="_blank" rel="noopener">GitHub</a>。
-		</p>
-		<p style="color: rgb(var(--gray)); font-size: 0.9em;">
-			<em>这段「关于我」是占位文字，请编辑 <code>src/pages/about.astro</code> 替换成你想说的。</em>
-		</p>
-	</div>
 	<div data-i18n-en>
 		<p>
 			Hi, I'm <strong>seizethe-day</strong>.
 		</p>
 		<p>
-			This blog is called <em>Carpe Diem</em> (Latin for "seize the day"). I use it to record
-			books I've read, code I've written, places I've been, and thoughts I've had. Posts come
-			whenever; length is whatever.
-		</p>
-		<p>
-			Most posts are in Chinese, some in English. Use the toggle in the top-right to switch the UI
-			language — posts themselves stay in their original language.
+			This blog is called <em>Carpe Diem</em> (Latin for "seize the day"). I write mostly in English,
+			with a Chinese translation for each post. Use the toggle in the top-right to switch UI
+			language; the post body switches with it.
 		</p>
 		<p>
 			Reach me by <a href="mailto:alice6161616@gmail.com">email</a> or on <a
@@ -46,10 +25,28 @@ import Layout from '../layouts/BlogPost.astro';
 				rel="noopener">GitHub</a
 			>.
 		</p>
-		<p style="color: rgb(var(--gray)); font-size: 0.9em;">
+		<p style="color: var(--text-muted); font-size: 0.9em;">
 			<em
 				>This About page is a placeholder — edit <code>src/pages/about.astro</code> to make it yours.</em
 			>
+		</p>
+	</div>
+	<div data-i18n-zh>
+		<p>
+			你好，我是 <strong>seizethe-day</strong>。
+		</p>
+		<p>
+			这个博客叫 <em>Carpe Diem</em>（拉丁语「抓住今天」）。文章以英文为主，每篇配中文版。右上角可以切换界面和正文的语言。
+		</p>
+		<p>
+			想找我聊：<a href="mailto:alice6161616@gmail.com">alice6161616@gmail.com</a> 或者 <a
+				href="https://github.com/seizethe-day"
+				target="_blank"
+				rel="noopener">GitHub</a
+			>。
+		</p>
+		<p style="color: var(--text-muted); font-size: 0.9em;">
+			<em>这段「关于我」是占位文字，请编辑 <code>src/pages/about.astro</code> 替换成你自己的。</em>
 		</p>
 	</div>
 </Layout>

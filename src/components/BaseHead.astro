@@ -29,11 +29,8 @@ const { title, description, image = FallbackImage } = Astro.props;
 			}
 			document.documentElement.dataset.theme = theme;
 
-			// Language: saved preference > Chinese (zh-*) browser hint > English default
-			var lang = localStorage.getItem('lang');
-			if (!lang) {
-				lang = (navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en';
-			}
+			// Language: English-first always; only changes when user clicks the toggle
+			var lang = localStorage.getItem('lang') || 'en';
 			document.documentElement.dataset.lang = lang;
 			document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
 		} catch (e) {

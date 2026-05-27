@@ -1,0 +1,84 @@
+---
+title: 'Welcome — the bilingual post template'
+title_zh: '欢迎——双语文章模板'
+description: 'A template post showing the bilingual structure for this blog.'
+description_zh: '这是一篇双语文章模板，演示这个博客的中英对照写法。'
+pubDate: 'May 27 2026'
+---
+
+<div data-i18n-en>
+
+This is a template post. Copy this file to a new `.mdx` in `src/content/blog/`, rename it, edit the frontmatter, and replace this content with your own.
+
+## How bilingual posts work
+
+Wrap your **English** content in `<div data-i18n-en>` and your **Chinese** content in `<div data-i18n-zh>`. The language toggle in the top-right decides which one readers see — they never see both at once.
+
+Each language block can contain any Markdown:
+
+- **bold**, _italic_, [links](https://example.com)
+- Lists, quotes, headings
+- Code blocks with syntax highlighting
+- Images and tables
+
+```js
+function hello(name) {
+	return `Hello, ${name}!`;
+}
+```
+
+> Quotes work the same way.
+
+## Frontmatter fields
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `title` | yes | English title (shown by default) |
+| `title_zh` | no | Chinese title (falls back to `title`) |
+| `description` | yes | English description, used in `<meta>` tags |
+| `description_zh` | no | Chinese description |
+| `pubDate` | yes | Any date string |
+| `updatedDate` | no | Shown next to publication date |
+| `heroImage` | no | Optional image at the top of the post |
+
+That's everything. Delete this file once you have real posts.
+
+</div>
+
+<div data-i18n-zh>
+
+这是一篇模板文章。把这个文件复制成 `src/content/blog/` 下的新 `.mdx`，改名、改 frontmatter，把内容替换成你自己的就行了。
+
+## 双语文章怎么写
+
+把**英文**内容包在 `<div data-i18n-en>` 里，把**中文**内容包在 `<div data-i18n-zh>` 里。右上角的语言切换决定读者看到哪一版——他们一次只看到一种语言。
+
+每个语言块里都可以用所有 Markdown 语法：
+
+- **加粗**、_斜体_、[链接](https://example.com)
+- 列表、引用、标题
+- 带高亮的代码块
+- 图片和表格
+
+```python
+def hello(name):
+    return f"Hello, {name}!"
+```
+
+> 引用也一样写。
+
+## Frontmatter 字段
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `title` | 是 | 英文标题（默认显示） |
+| `title_zh` | 否 | 中文标题（缺省时用英文标题） |
+| `description` | 是 | 英文描述，用于 `<meta>` 标签 |
+| `description_zh` | 否 | 中文描述 |
+| `pubDate` | 是 | 任意日期字符串 |
+| `updatedDate` | 否 | 显示在发布日期旁 |
+| `heroImage` | 否 | 文章顶部的可选大图 |
+
+就这些。等你写完真的文章再删掉这个模板就好。
+
+</div>

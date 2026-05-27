@@ -1,44 +1,122 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<div data-i18n-zh>
-				<h1>👋 你好</h1>
-				<p>
-					这里是 <strong>Carpe Diem</strong>——一个用来记录读书、写代码、生活随想的小角落。
-				</p>
-				<p>
-					欢迎逛逛 <a href="/blog">所有文章</a>，或者了解一下 <a href="/about">关于我</a>。
-				</p>
-				<p style="font-size: 0.9em; color: rgb(var(--gray));">
-					右上角可以切换中英文界面。
-				</p>
-			</div>
-			<div data-i18n-en>
-				<h1>👋 Hello</h1>
-				<p>
-					Welcome to <strong>Carpe Diem</strong> — a little corner for notes on reading, code,
-					and life.
-				</p>
-				<p>
-					Browse <a href="/blog">all posts</a>, or check out <a href="/about">about me</a>.
-				</p>
-				<p style="font-size: 0.9em; color: rgb(var(--gray));">
-					Use the toggle in the top-right to switch UI language.
-				</p>
-			</div>
+			<section class="intro">
+				<div data-i18n-en>
+					<p>
+						Hi, I'm <strong>seizethe-day</strong>. Notes on reading, code, and life. Posts come in
+						English and Chinese — use the toggle in the top-right to switch.
+					</p>
+				</div>
+				<div data-i18n-zh>
+					<p>
+						你好，我是 <strong>seizethe-day</strong>。这里记录读书、代码、生活。每篇文章都有英文和中文两版——右上角可以切换。
+					</p>
+				</div>
+			</section>
+			<section class="posts">
+				<ul>
+					{
+						posts.map((post) => {
+							const titleEn = post.data.title;
+							const titleZh = post.data.title_zh || titleEn;
+							return (
+								<li>
+									<a href={`/blog/${post.id}/`}>
+										<time class="date" datetime={post.data.pubDate.toISOString()}>
+											<FormattedDate date={post.data.pubDate} />
+										</time>
+										<span class="title">
+											<span data-i18n-en>{titleEn}</span>
+											<span data-i18n-zh>{titleZh}</span>
+										</span>
+									</a>
+								</li>
+							);
+						})
+					}
+				</ul>
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	.intro {
+		margin-bottom: 2.5em;
+		padding-bottom: 2em;
+		border-bottom: 1px solid var(--border);
+	}
+	.intro p {
+		color: var(--text-muted);
+		font-size: 1.02em;
+		margin: 0;
+		line-height: 1.65;
+	}
+	.posts ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.posts li a {
+		display: grid;
+		grid-template-columns: 7em 1fr;
+		gap: 1.5em;
+		padding: 0.7em 0.5em;
+		color: var(--text);
+		text-decoration: none;
+		border-bottom: 1px solid var(--border);
+		transition: background 0.15s;
+	}
+	.posts li:last-child a {
+		border-bottom: none;
+	}
+	.posts li a:hover {
+		background: var(--bg-elevated);
+	}
+	.posts li a:hover .title {
+		color: var(--accent);
+	}
+	.posts .date {
+		color: var(--text-subtle);
+		font-size: 0.85em;
+		font-variant-numeric: tabular-nums;
+		padding-top: 0.2em;
+		white-space: nowrap;
+	}
+	.posts .title {
+		font-size: 1.05em;
+		font-weight: 500;
+		line-height: 1.4;
+		transition: color 0.15s;
+	}
+	@media (max-width: 720px) {
+		.posts li a {
+			grid-template-columns: 5.5em 1fr;
+			gap: 1em;
+			padding: 0.6em 0.25em;
+		}
+		.posts .title {
+			font-size: 0.98em;
+		}
+	}
+</style>
