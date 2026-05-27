@@ -1,12 +1,10 @@
 ---
 import { GITHUB_URL, SITE_AUTHOR } from '../consts';
-import VisitorMap from './VisitorMap.astro';
 const today = new Date();
 ---
 
 <footer>
 	<div class="footer-inner">
-		<VisitorMap />
 		<div class="copyright">
 			&copy; {today.getFullYear()} {SITE_AUTHOR}
 			<span class="dot">·</span>
@@ -26,9 +24,6 @@ const today = new Date();
 	.footer-inner {
 		max-width: 720px;
 		margin: 0 auto;
-	}
-	.copyright {
-		margin-top: 1.5em;
 	}
 	.copyright a {
 		color: var(--text-muted);
