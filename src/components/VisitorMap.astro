@@ -1,0 +1,121 @@
+---
+import { CLUSTRMAPS_ID } from '../consts';
+const widgetURL = CLUSTRMAPS_ID
+	? `//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=320&t=tt&d=${CLUSTRMAPS_ID}&co=2563eb&ct=ffffff`
+	: '';
+---
+
+{
+	CLUSTRMAPS_ID ? (
+		<div class="visitor-map">
+			<p class="map-title">
+				<span data-i18n-zh>访客分布</span>
+				<span data-i18n-en>Where visitors come from</span>
+			</p>
+			<div class="map-widget">
+				<script is:inline type="text/javascript" id="clustrmaps" src={widgetURL} />
+			</div>
+		</div>
+	) : (
+		<details class="visitor-map-setup">
+			<summary>
+				<span data-i18n-zh>🌍 启用访客地图（点开看 3 步配置）</span>
+				<span data-i18n-en>🌍 Enable visitor map (3-step setup)</span>
+			</summary>
+			<div class="setup-body">
+				<div data-i18n-zh>
+					<ol>
+						<li>
+							到 <a href="https://clustrmaps.com" target="_blank" rel="noopener">
+								clustrmaps.com
+							</a>{' '}
+							用邮箱免费注册。
+						</li>
+						<li>
+							添加网站 <code>https://seizethe-day.github.io</code>，他们会给你一个 widget ID（一串字符）。
+						</li>
+						<li>
+							编辑 <code>src/consts.ts</code>，把 ID 粘进 <code>CLUSTRMAPS_ID = ''</code>{' '}
+							的引号里，<code>git push</code> 即可。
+						</li>
+					</ol>
+				</div>
+				<div data-i18n-en>
+					<ol>
+						<li>
+							Sign up at{' '}
+							<a href="https://clustrmaps.com" target="_blank" rel="noopener">
+								clustrmaps.com
+							</a>
+							.
+						</li>
+						<li>
+							Add site <code>https://seizethe-day.github.io</code> — they'll give you a widget ID.
+						</li>
+						<li>
+							Paste the ID into <code>CLUSTRMAPS_ID</code> in <code>src/consts.ts</code>, then{' '}
+							<code>git push</code>.
+						</li>
+					</ol>
+				</div>
+			</div>
+		</details>
+	)
+}
+
+<style>
+	.visitor-map {
+		margin-top: 2em;
+		text-align: center;
+	}
+	.map-title {
+		font-size: 0.78em;
+		color: var(--text-muted);
+		margin-bottom: 0.75em;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.map-widget {
+		display: inline-block;
+		background: #ffffff;
+		border-radius: 12px;
+		padding: 0.75em;
+		box-shadow: var(--shadow-sm);
+		border: 1px solid var(--border);
+	}
+	.visitor-map-setup {
+		max-width: 520px;
+		margin: 2em auto 0;
+		font-size: 0.85em;
+		color: var(--text-muted);
+		text-align: left;
+		padding: 0.5em 1em;
+		border: 1px dashed var(--border);
+		border-radius: 8px;
+		background: var(--bg-elevated);
+	}
+	.visitor-map-setup summary {
+		cursor: pointer;
+		text-align: center;
+		font-weight: 500;
+		padding: 0.4em 0;
+		list-style: none;
+	}
+	.visitor-map-setup summary::-webkit-details-marker {
+		display: none;
+	}
+	.visitor-map-setup summary:hover {
+		color: var(--text);
+	}
+	.setup-body ol {
+		padding-left: 1.25em;
+		margin: 0.75em 0 0.5em;
+	}
+	.setup-body li {
+		margin: 0.4em 0;
+		line-height: 1.55;
+	}
+	.setup-body code {
+		font-size: 0.85em;
+	}
+</style>

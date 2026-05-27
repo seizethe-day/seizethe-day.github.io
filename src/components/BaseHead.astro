@@ -18,18 +18,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = FallbackImage } = Astro.props;
 ---
 
-<!-- i18n: apply saved language preference before content renders (no FOUC) -->
+<!-- Theme + i18n init: applied before paint to avoid flash -->
 <script is:inline>
 	(function () {
 		try {
+			// Theme: saved preference > system preference > light
+			var theme = localStorage.getItem('theme');
+			if (!theme) {
+				theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			}
+			document.documentElement.dataset.theme = theme;
+
+			// Language: saved preference > Chinese (zh-*) browser hint > English default
 			var lang = localStorage.getItem('lang');
 			if (!lang) {
-				lang = (navigator.language || 'zh').toLowerCase().startsWith('en') ? 'en' : 'zh';
+				lang = (navigator.language || 'en').toLowerCase().startsWith('zh') ? 'zh' : 'en';
 			}
 			document.documentElement.dataset.lang = lang;
 			document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
 		} catch (e) {
-			document.documentElement.dataset.lang = 'zh';
+			document.documentElement.dataset.theme = 'light';
+			document.documentElement.dataset.lang = 'en';
 		}
 	})();
 </script>
