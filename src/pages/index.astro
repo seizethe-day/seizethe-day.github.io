@@ -20,38 +20,23 @@ const posts = (await getCollection('blog')).sort(
 		<Header />
 		<main>
 			<section class="intro">
-				<div data-i18n-en>
-					<p>
-						Hi, I'm <strong>seizethe-day</strong>. Notes on reading, code, and life. Posts come in
-						English and Chinese — use the toggle in the top-right to switch.
-					</p>
-				</div>
-				<div data-i18n-zh>
-					<p>
-						你好，我是 <strong>seizethe-day</strong>。这里记录读书、代码、生活。每篇文章都有英文和中文两版——右上角可以切换。
-					</p>
-				</div>
+				<p>
+					Hi, I'm <strong>seizethe-day</strong>. Notes on reading, code, and life.
+				</p>
 			</section>
 			<section class="posts">
 				<ul>
 					{
-						posts.map((post) => {
-							const titleEn = post.data.title;
-							const titleZh = post.data.title_zh || titleEn;
-							return (
-								<li>
-									<a href={`/blog/${post.id}/`}>
-										<time class="date" datetime={post.data.pubDate.toISOString()}>
-											<FormattedDate date={post.data.pubDate} />
-										</time>
-										<span class="title">
-											<span data-i18n-en>{titleEn}</span>
-											<span data-i18n-zh>{titleZh}</span>
-										</span>
-									</a>
-								</li>
-							);
-						})
+						posts.map((post) => (
+							<li>
+								<a href={`/blog/${post.id}/`}>
+									<time class="date" datetime={post.data.pubDate.toISOString()}>
+										<FormattedDate date={post.data.pubDate} />
+									</time>
+									<span class="title">{post.data.title}</span>
+								</a>
+							</li>
+						))
 					}
 				</ul>
 			</section>

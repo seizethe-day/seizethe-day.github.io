@@ -8,8 +8,7 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, title_zh, description, pubDate, updatedDate, heroImage } = Astro.props;
-const titleZh = title_zh || title;
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <html lang="en">
@@ -75,16 +74,13 @@ const titleZh = title_zh || title;
 					)
 				}
 				<header class="post-header">
-					<h1>
-						<span data-i18n-en>{title}</span><span data-i18n-zh>{titleZh}</span>
-					</h1>
+					<h1>{title}</h1>
 					<div class="post-meta">
 						<FormattedDate date={pubDate} />
 						{
 							updatedDate && (
 								<span class="last-updated-on">
-									<span data-i18n-en>· updated</span>
-									<span data-i18n-zh>· 更新于</span> <FormattedDate date={updatedDate} />
+									· updated <FormattedDate date={updatedDate} />
 								</span>
 							)
 						}

@@ -1,7 +1,6 @@
 ---
 import { SITE_TITLE, GITHUB_URL } from '../consts';
 import HeaderLink from './HeaderLink.astro';
-import LangToggle from './LangToggle.astro';
 import ThemeToggle from './ThemeToggle.astro';
 ---
 
@@ -9,12 +8,8 @@ import ThemeToggle from './ThemeToggle.astro';
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
 		<div class="internal-links">
-			<HeaderLink href="/">
-				<span data-i18n-en>Posts</span><span data-i18n-zh>文章</span>
-			</HeaderLink>
-			<HeaderLink href="/about">
-				<span data-i18n-en>About</span><span data-i18n-zh>关于</span>
-			</HeaderLink>
+			<HeaderLink href="/">Posts</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<div class="utility-links">
 			<a class="github-link" href={GITHUB_URL} target="_blank" rel="noopener" aria-label="GitHub">
@@ -26,7 +21,6 @@ import ThemeToggle from './ThemeToggle.astro';
 				>
 			</a>
 			<ThemeToggle />
-			<LangToggle />
 		</div>
 	</nav>
 </header>

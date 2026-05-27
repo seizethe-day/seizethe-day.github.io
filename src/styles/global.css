@@ -74,14 +74,6 @@ html[data-theme='dark'] {
 	color-scheme: dark;
 }
 
-/* i18n: show only elements matching the active language */
-html[data-lang='zh'] [data-i18n-en] {
-	display: none !important;
-}
-html[data-lang='en'] [data-i18n-zh] {
-	display: none !important;
-}
-
 body {
 	font-family: var(--font-sans);
 	margin: 0;

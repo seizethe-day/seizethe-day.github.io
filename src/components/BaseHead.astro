@@ -18,24 +18,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = FallbackImage } = Astro.props;
 ---
 
-<!-- Theme + i18n init: applied before paint to avoid flash -->
+<!-- Theme init: applied before paint to avoid flash -->
 <script is:inline>
 	(function () {
 		try {
-			// Theme: saved preference > system preference > light
 			var theme = localStorage.getItem('theme');
 			if (!theme) {
 				theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 			}
 			document.documentElement.dataset.theme = theme;
-
-			// Language: English-first always; only changes when user clicks the toggle
-			var lang = localStorage.getItem('lang') || 'en';
-			document.documentElement.dataset.lang = lang;
-			document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
 		} catch (e) {
 			document.documentElement.dataset.theme = 'light';
-			document.documentElement.dataset.lang = 'en';
 		}
 	})();
 </script>

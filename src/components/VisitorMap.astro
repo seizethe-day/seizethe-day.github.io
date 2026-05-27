@@ -8,56 +8,31 @@ const widgetURL = CLUSTRMAPS_ID
 {
 	CLUSTRMAPS_ID ? (
 		<div class="visitor-map">
-			<p class="map-title">
-				<span data-i18n-zh>访客分布</span>
-				<span data-i18n-en>Where visitors come from</span>
-			</p>
+			<p class="map-title">Where visitors come from</p>
 			<div class="map-widget">
 				<script is:inline type="text/javascript" id="clustrmaps" src={widgetURL} />
 			</div>
 		</div>
 	) : (
 		<details class="visitor-map-setup">
-			<summary>
-				<span data-i18n-zh>🌍 启用访客地图（点开看 3 步配置）</span>
-				<span data-i18n-en>🌍 Enable visitor map (3-step setup)</span>
-			</summary>
+			<summary>🌍 Enable visitor map (3-step setup)</summary>
 			<div class="setup-body">
-				<div data-i18n-zh>
-					<ol>
-						<li>
-							到 <a href="https://clustrmaps.com" target="_blank" rel="noopener">
-								clustrmaps.com
-							</a>{' '}
-							用邮箱免费注册。
-						</li>
-						<li>
-							添加网站 <code>https://seizethe-day.github.io</code>，他们会给你一个 widget ID（一串字符）。
-						</li>
-						<li>
-							编辑 <code>src/consts.ts</code>，把 ID 粘进 <code>CLUSTRMAPS_ID = ''</code>{' '}
-							的引号里，<code>git push</code> 即可。
-						</li>
-					</ol>
-				</div>
-				<div data-i18n-en>
-					<ol>
-						<li>
-							Sign up at{' '}
-							<a href="https://clustrmaps.com" target="_blank" rel="noopener">
-								clustrmaps.com
-							</a>
-							.
-						</li>
-						<li>
-							Add site <code>https://seizethe-day.github.io</code> — they'll give you a widget ID.
-						</li>
-						<li>
-							Paste the ID into <code>CLUSTRMAPS_ID</code> in <code>src/consts.ts</code>, then{' '}
-							<code>git push</code>.
-						</li>
-					</ol>
-				</div>
+				<ol>
+					<li>
+						Sign up at{' '}
+						<a href="https://clustrmaps.com" target="_blank" rel="noopener">
+							clustrmaps.com
+						</a>
+						.
+					</li>
+					<li>
+						Add site <code>https://seizethe-day.github.io</code> — they'll give you a widget ID.
+					</li>
+					<li>
+						Paste the ID into <code>CLUSTRMAPS_ID</code> in <code>src/consts.ts</code>, then{' '}
+						<code>git push</code>.
+					</li>
+				</ol>
 			</div>
 		</details>
 	)
