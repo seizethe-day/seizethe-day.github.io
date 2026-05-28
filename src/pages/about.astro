@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/BlogPost.astro';
+import { EMAIL, GITHUB_URL } from '../consts';
 ---
 
 <Layout
@@ -15,8 +16,8 @@ import Layout from '../layouts/BlogPost.astro';
 		written, places I've been, and thoughts I've had.
 	</p>
 	<p>
-		Reach me by <a href="mailto:alice6161616@gmail.com">email</a> or on <a
-			href="https://github.com/seizethe-day"
+		Reach me by <a href={`mailto:${EMAIL}`}>email</a> or on <a
+			href={GITHUB_URL}
 			target="_blank"
 			rel="noopener">GitHub</a
 		>.

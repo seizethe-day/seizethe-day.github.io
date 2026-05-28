@@ -5,4 +5,4 @@ export const SITE_TITLE = 'SeizeTheDay';
 export const SITE_DESCRIPTION = "Ariel's Log — notes on reading, code, and life.";
 export const SITE_AUTHOR = 'Ariel';
 export const GITHUB_URL = 'https://github.com/seizethe-day';
-export const EMAIL = 'alice6161616@gmail.com';
+export const EMAIL = 'Ariel06611@outlook.com';
